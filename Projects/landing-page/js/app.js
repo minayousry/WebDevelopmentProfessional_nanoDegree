@@ -156,10 +156,6 @@ function SetScrollEvent()
   window.addEventListener("scroll", onscrollTOEvent);
 }
 
-function SetMouseOutEvent()
-{
-  window.addEventListener("onMouseOut", onscrollTOEvent);
-}
 
 /**
  * End Main Functions
