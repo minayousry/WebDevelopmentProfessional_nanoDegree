@@ -30,11 +30,14 @@ To get started, open `js/app.js`
 * ActivateViewPortSection():to Activate the section in the viewport by changing it's class
 * buildNavigationMenu():To build the navigation unordered list and create newEventListener if one of the items is clicked
 * SetScrollEvent():To create 2 events listner for scrolling mapped to the same function which Activate the current section
+* GetActiveSectionElement():return the actve section element
+
 
 
 ## Events
 
 * onClickEvent():function to be called if a click on one of the navigation items happened
 * onscrollTOEvent():function to be called if a scroll happened
+* DOMContentLoaded():function to go to the first section when page is loaded and highlight first item
 
 

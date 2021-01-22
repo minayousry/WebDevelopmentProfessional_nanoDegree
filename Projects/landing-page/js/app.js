@@ -47,6 +47,7 @@ function IsElementInViewPort(element)
       (rectBound.bottom <= viewPortHeight) &&
       (rectBound.right <= viewPortWidth))
       {
+        ShowClickedItem(element);
         result =  true;
       }
       else
@@ -66,7 +67,7 @@ function IsElementInViewPort(element)
 function ShowClickedItem(clicked_item)
 {
 
-
+  event.preventDefault();
   let item = navigationList.firstElementChild;
 
   while(item != null)
@@ -98,14 +99,45 @@ function onClickEvent(event)
 
   if(id_element != null)
   {
-    window.location.hash = targetName;
+    id_element.scrollIntoView();
+    //window.location.hash = targetName;
   }
 
 }
 
+function ShowActiveSectionItem()
+{
+  const active_section = GetActiveSectionElement();
+
+  if(active_section != null)
+  {
+
+    const active_button = document.querySelector("#nav"+active_section.id);
+
+    if(active_button != null)
+    {
+      ShowClickedItem(active_button);
+    }
+
+    for(section of sections)
+    {
+      if(section.id == active_section.id)
+      {
+        active_section.className = "your-active-class";
+      }
+      else
+      {
+        section.className = "not-active-class";
+      }
+    }
+  }
+}
+
 function onscrollTOEvent(event)
 {
-    ActivateViewPortSection();
+  event.preventDefault();
+  ShowActiveSectionItem()
+
 }
 
 
@@ -131,16 +163,39 @@ function buildNavigationMenu()
   navigationList.appendChild(fragment);
 }
 
+function GetActiveSectionElement()
+{
+  let result;
+  let active_section = null;
+
+  for(section of sections)
+  {
+    result =  IsElementInViewPort(section);
+
+    if(result == true)
+    {
+      active_section = section;
+      break;
+    }
+
+  }
+  return active_section;
+}
+
+
+
 // Add class 'active' to section when near top of viewport
 function ActivateViewPortSection()
 {
   let result;
+  let active_section;
 
   for(section of sections)
   {
     result =  IsElementInViewPort(section);
     if(result == true)
     {
+
       section.className = "your-active-class";
     }
     else
@@ -172,3 +227,8 @@ buildNavigationMenu();
 
 // Set sections as active
 SetScrollEvent();
+
+document.addEventListener('DOMContentLoaded', function () {
+          document.location.href = "#home_section";
+          navigationList.firstElementChild.className = "selectedItem";;
+      });
