@@ -99,7 +99,7 @@ function onClickEvent(event)
 
   if(id_element != null)
   {
-    id_element.scrollIntoView();
+    id_element.scrollIntoView({behavior: "smooth"});
     //window.location.hash = targetName;
   }
 
