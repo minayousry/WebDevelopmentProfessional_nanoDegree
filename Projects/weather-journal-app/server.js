@@ -2,6 +2,8 @@
 projectData = {};
 let counter = 0;
 
+let projectDataModified = false;
+
 // Require Express to run server and routes
 const express = require("express");
 
@@ -47,7 +49,14 @@ app.get('/all',replyWithData);
 //once a get request is received respond with projectData
 function replyWithData(req,res) 
 {
-    res.send(projectData);
+    if(projectDataModified == true)
+    {
+        res.send(projectData[counter - 1]);
+    }
+    else
+    {
+        res.send(projectData);
+    }
 }
 
 //Add post route
@@ -65,6 +74,7 @@ function SaveIncomingData(req,res)
     projectData[counter] = data
     //increase counter fore new elements
     counter++;
+    projectDataModified = true;
     res.send('POST received');
 }
 

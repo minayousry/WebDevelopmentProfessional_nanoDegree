@@ -1,9 +1,9 @@
 /* Global Variables */
-let baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip='
-let apiKey = ',us&appid=641e76d6fb6a791cc947188cb406bed1';
+const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip='
+const apiKey = ',us&appid=641e76d6fb6a791cc947188cb406bed1&units=metric';
 
-//Define GetData route
-const GetData = async (burl, zip, key) =>
+//Define GetData route to get data from openMap website and from server
+const GetData = async (burl, zip = '', key = '') =>
 {
     const response = await fetch(burl+zip+key);
 
@@ -18,6 +18,7 @@ const GetData = async (burl, zip, key) =>
     }
 
 }
+
 
 //Define PostData route
 const postData = async(url ='',data = {}) =>
@@ -56,7 +57,10 @@ function onClickEvent(e)
 
     // Create a new date instance dynamically with JS
     let d = new Date();
-    let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+    let day = String(d.getDate()).padStart(2,'0');
+    let month = String(d.getMonth() + 1).padStart(2,'0');
+    let year = d.getFullYear();
+    let newDate = day+'.'+ month+'.'+ year;
 
 
     if(zipCode)
@@ -116,7 +120,7 @@ function updateUserInterface(date,temp,feeling)
 
     if(temp)
     {
-        showTemp+=temp;
+        showTemp+= Math.round(temp) +' degrees';
     }
 
     if(feeling)
@@ -139,9 +143,11 @@ function StoreUpdateUI(newDate,temp,feeling)
                       };
     
     
-    postData('/add',full_data).then(function(data)
+    postData('/add',full_data);
+    GetData('/all').then(function(data)
     {
-        updateUserInterface(newDate,temp,feeling);
+        console.log(data);
+        updateUserInterface(data['date'],data['temperature'],data['user_response']);
     });
     
 }
